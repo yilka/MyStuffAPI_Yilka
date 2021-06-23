@@ -6,11 +6,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyStuffAPI_Yilka.Models;
+using MyStuffAPI_Yilka.Attributes;
 
 namespace MyStuffAPI_Yilka.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [ApiKey]
     public class UserStatusController : ControllerBase
     {
         private readonly MyStuffDBContext _context;
