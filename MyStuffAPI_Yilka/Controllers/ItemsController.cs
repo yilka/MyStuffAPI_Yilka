@@ -43,6 +43,24 @@ namespace MyStuffAPI_Yilka.Controllers
             return item;
         }
 
+        [HttpGet("GetItemsList")]
+        public async Task<ActionResult<IEnumerable<Item>>> GetItemsList(int UserId)
+        {
+            var item = await _context.Items.Where(a => a.UserId == UserId).ToListAsync();
+
+            //var it = (from i in _context.Items
+            //          join u in _context.Users
+            //          on i.UserId equals u.UserId
+            //          where i.UserId.Equals(UserId)
+            //          select i);
+
+            if (item == null)
+            {
+                return NotFound();
+            }
+
+            return item;
+        }
         // PUT: api/Items/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]

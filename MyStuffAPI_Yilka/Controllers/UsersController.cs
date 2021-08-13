@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyStuffAPI_Yilka.Models;
 using MyStuffAPI_Yilka.Attributes;
+using MyStuffAPI_Yilka.Tools;
 
 namespace MyStuffAPI_Yilka.Controllers
 {
@@ -42,6 +43,43 @@ namespace MyStuffAPI_Yilka.Controllers
 
             return user;
         }
+
+        //este get, recibe por param el email (encriptado para que no vaya a ser capturado cuando
+        //se llama a la ruta del API, ya que puede ser usado para spam) y el pass también encriptado 
+        //por seguridad. 
+
+        // GET: api/Users/email/pass
+        [HttpGet("{email}/{pass}")]
+        public async Task<ActionResult<User>> ValidateUser(string email, string pass)
+        {
+            Crypto MiEncriptador = new Crypto();
+
+            string Email = MiEncriptador.DesEncriptarData(email);
+
+            var user = await _context.Users.SingleOrDefaultAsync(e => e.Username == Email && e.UserPassword == pass && e.UserStatusId == 1);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return user;
+        }
+
+        // GET: api/Users/ValidateUser2
+        [HttpGet("ValidateUser2")]
+        public async Task<ActionResult<User>> ValidateUser2(string email, string pass)
+        {
+            var user = await _context.Users.SingleOrDefaultAsync(e => e.Username == email && e.UserPassword == pass && e.UserStatusId == 1);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return user;
+        }
+
 
         // PUT: api/Users/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754

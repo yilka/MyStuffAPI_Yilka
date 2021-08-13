@@ -87,6 +87,16 @@ namespace MyStuffAPI_Yilka.Models
 
                 entity.Property(e => e.CurrencyId).HasColumnName("CurrencyID");
 
+                entity.Property(e => e.DisplayImageUri)
+                    .HasMaxLength(2000)
+                    .IsUnicode(false)
+                    .HasColumnName("DisplayImageURI");
+
+                entity.Property(e => e.DisplayImageUrilowRes)
+                    .HasMaxLength(2000)
+                    .IsUnicode(false)
+                    .HasColumnName("DisplayImageURILowRes");
+
                 entity.Property(e => e.ExRate)
                     .HasColumnType("decimal(18, 8)")
                     .HasDefaultValueSql("((1))");
